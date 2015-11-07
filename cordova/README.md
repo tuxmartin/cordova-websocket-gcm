@@ -4,7 +4,7 @@ Instalace Cordovy
 ```npm install -g cordova```
 
 
-Vytvoreni apliakce pomoci Cordovy
+Vytvoreni aplikace pomoci Cordovy
 =================================
 
 Je potreba mit nainstalovane Android SDK a nastavene cesty.
@@ -82,8 +82,12 @@ Je potreba upravir *www/js/index.js*. Hlavne tam dat ID z webu GCM.
 APK pro android bude v *gcm/platforms/android/build/outputs/apk/android-debug.apk*
 
 
+Poznamky
+=======
 
-**Ziskani GCM ID/KEY: https://developers.google.com/cloud-messaging/**
+Ziskani GCM ID/KEY: https://developers.google.com/cloud-messaging/
+
+Pokud je na mobilu apliakce otevrena, prichozi notifikace se pripise na konec a to je vse. Pokud je aplikace na pozadi (nema otevrene okno), mobil zahlasi notifikaci a prida ji do notifiakcniho menu (nevim jak se to jmenuje - proste jak se stahne horni lista dolu...).
 
 
 
