@@ -75,9 +75,9 @@ Cordova app - jak na to
 
 Po vygenerovani kostry app jsem jenom upravil tuto kostru. Dulezity je pouze obsah adresare **www**.
 
-Pridal jsem *jQuery * a *materialise* JS knihovny, ale slo by to i bez nich.
+Pridal jsem *jQuery* a *materialise.js* JS knihovny, ale slo by to i bez nich.
 
-Je potreba upravir *www/js/index.js*. Hlavne tam dat ID z webu GCM.
+Je potreba upravit *www/js/index.js*. Hlavne tam dat ID z webu GCM.
 
 APK pro android bude v *gcm/platforms/android/build/outputs/apk/android-debug.apk*
 
