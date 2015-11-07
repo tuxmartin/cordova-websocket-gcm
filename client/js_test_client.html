@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<!--		TESTOVACI WEBSOCKET KLIENT		-->
+<html>
+<head>
+    <script type="text/javascript">
+        var s;
+
+        var inputBox = document.getElementById("message");
+        var output = document.getElementById("output");
+        var form = document.getElementById("form");
+
+        try {
+            var host = "ws://localhost:9000/";
+            console.log("Host:", host);
+
+            s = new WebSocket(host);
+
+            s.onOpen = function (e) {
+                console.log("Socket opened.");
+
+                form.addEventListener("submit", function (e) {
+                    e.preventDefault();
+                    s.send(inputBox.value);
+                    inputBox.value = "";
+                }, false)
+
+                form.removeAttribute("disabled");
+                form.style.backgroundColor = "green"; // funguje to?
+            };
+
+            s.onClose = function (e) {
+                console.log("Socket closed.");
+                form.createAttribute("disabled");
+                form.style.backgroundColor = "red"; // funguje to?
+            };
+
+            s.onMessage = function (e) {
+                console.log("Socket message:", e.data);
+                var p = document.createElement("p");
+                p.innerHTML = e.data;
+                output.appendChild(p);
+            };
+
+            s.onError = function (e) {
+                console.log("Socket error:", e);
+            };
+
+        } catch (ex) {
+            console.log("Socket exception:", ex);
+        }
+    </script>
+</head>
+<body>
+
+<form id="form" style="border: 1px solid black;">
+    <p>Pro pozdrav zacni zpravu <strong>HELLO</strong>.</p>
+    <input type="text" id="message" style="border: 1px solid black;"> <!-- readonly -->
+    <button id="submit"  type="submit" style="border: 1px solid black; background-color: red;">Poslat na server pres WS</button>
+</form>
+
+<div id="output" style="border: 1px solid black;"></div>
+
+</body>
+</html>
