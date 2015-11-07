@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=yes" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+        <title>Hello World</title>
+    </head>
+    <body>
+		<div class="row">
+		  <div class="col s12 m6">
+		    <div class="card darken-1">
+		      <div class="card-content black-text">
+		        <span class="card-title black-text">Registration ID</span>
+		        <p id="regId">Requested</p>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+		<form id="form" style="border: 1px solid black;">
+			<p>Pro vyzadanou notifikaci zacni <strong>N=</strong>, prijde za 10s.</p>
+			<input type="text" id="message" style="border: 1px solid black;"> <!-- readonly -->
+			<button id="submitWSform" type="submit" disabled style="border: 1px solid black; background-color: red;">Poslat na server pres WS</button>
+		</form>
+
+		<hr>
+
+		<div id="output"></div>
+
+		<script>
+			var s;
+
+			function sendPhoneId(regId, s) {
+				s.send("REGID="+regId);
+			}
+
+			var inputBox = document.getElementById("message");
+			var output = document.getElementById("output");
+			var form = document.getElementById("form");
+
+			try {
+				var host = "ws://example.net:9000/";
+				console.log("Host:", host);
+
+				s = new WebSocket(host);
+
+				s.onopen = function (e) {
+					console.log("Socket opened.");
+					document.getElementById("submitWSform").removeAttribute("disabled");
+					document.getElementById("submitWSform").style.backgroundColor = "green"; // funguje to?
+
+				};
+
+				s.onclose = function (e) {
+					console.log("Socket closed.");
+					document.getElementById("submitWSform").createAttribute("disabled");
+					document.getElementById("submitWSform").style.backgroundColor = "red"; // funguje to?
+				};
+
+				s.onmessage = function (e) {
+					console.log("Socket message:", e.data);
+					var p = document.createElement("p");
+					p.innerHTML = e.data;
+					output.appendChild(p);
+				};
+
+				s.onerror = function (e) {
+					console.log("Socket error:", e);
+				};
+
+			} catch (ex) {
+				console.log("Socket exception:", ex);
+			}
+
+			form.addEventListener("submit", function (e) {
+				e.preventDefault();
+				s.send(inputBox.value);
+				inputBox.value = "";
+			}, false)
+
+		</script>
+
+		<div id="cards"></div>
+
+		<script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="js/materialize.min.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+    </body>
+</html>
